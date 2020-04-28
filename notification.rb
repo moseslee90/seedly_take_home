@@ -32,6 +32,13 @@ def generate_notifications_map(notifications, user_id)
 end
 
 def group_notifications(notifications_map)
+  def set_notification_group(grouped_notifications:, notification_type_id:, latest_date:, users_string:)
+    notification_type_string = Notification.get_notification_type_string(notification_type_id)
+    date_string = Utils.get_date_string(latest_date)
+    to_print = "[#{date_string}] #{users_string} #{notification_type_string}"
+    grouped_notifications[latest_date] = to_print
+    grouped_notifications
+  end
   grouped_notifications = Hash.new
   notifications_map.each do | target_id, notification_type_id |
     notifications_map[target_id].each do | notification_type_id, sender_id |
@@ -48,14 +55,11 @@ def group_notifications(notifications_map)
         if date - earliest_date > 30 * 1000
           # this notification is more than 30 secs from earliest
           # set new earliest date and batch the last few messages together
+          grouped_notifications = set_notification_group(
+            grouped_notifications: grouped_notifications, notification_type_id: notification_type_id,
+            latest_date: latest_date, users_string: users)
 
-          # set previous batch first
-          notification_type_string = Notification.get_notification_type_string(notification_type_id)
-          date_string = Utils.get_date_string(latest_date)
-          to_print = "[#{date_string}] #{users} #{notification_type_string}"
-          grouped_notifications[latest_date] = to_print
-
-          # start new batch
+          # start new batch by setting a new earliest date and reset users string
           earliest_date = date
           users = ''
         end
@@ -68,10 +72,9 @@ def group_notifications(notifications_map)
           users = users + ' and ' + sender_id
         end
       end
-      notification_type_string = Notification.get_notification_type_string(notification_type_id)
-      date_string = Utils.get_date_string(latest_date)
-      to_print = "[#{date_string}] #{users} #{notification_type_string}"
-      grouped_notifications[latest_date] = to_print
+      grouped_notifications = set_notification_group(
+        grouped_notifications: grouped_notifications, notification_type_id: notification_type_id,
+        latest_date: latest_date, users_string: users)
     end
   end
   grouped_notifications
