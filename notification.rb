@@ -7,7 +7,8 @@ def main(file_name, user_id)
   notifications_json = Utils.parse_json(file)
   return if !notifications_json
   notifications_map = generate_notifications_map(notifications_json, user_id)
-  p notifications_map
+  grouped_notifications = group_notifications(notifications_map)
+  p grouped_notifications
 end
 
 def generate_notifications_map(notifications, user_id)
@@ -22,6 +23,32 @@ def generate_notifications_map(notifications, user_id)
   end
 
   notifications_map
+end
+
+def group_notifications(notifications_map)
+  grouped_notifications = Hash.new
+  notifications_map.each do | target_id, notification_type_id |
+    notifications_map[target_id].each do | notification_type_id, sender_id |
+      to_print = ''
+      latest_date = 0
+      users = ''
+      notifications_map[target_id][notification_type_id].each do | sender_id, date |
+        if date > latest_date
+          latest_date = date
+        end
+        if users == ''
+          users = sender_id
+        else
+          users = users + ' and ' + sender_id
+        end
+      end
+      notification_type_string = Notification.get_notification_type_string(notification_type_id)
+      date_string = Utils.get_date_string(latest_date)
+      to_print = "[#{date_string}] #{users} #{notification_type_string}"
+      grouped_notifications[latest_date] = to_print
+    end
+  end
+  grouped_notifications
 end
 
 main(ARGV[0], ARGV[1])
