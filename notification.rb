@@ -6,11 +6,14 @@ def main(file_name, user_id)
   return if !file
   notifications_json = Utils.parse_json(file)
   return if !notifications_json
-
+  date_1 = Utils.get_date_string(1574325866040)
+  date_2 = Utils.get_date_string(1574325959410)
+  p date_1
+  p date_2
   notifications_map = generate_notifications_map(notifications_json, user_id)
   grouped_notifications = group_notifications(notifications_map)
   sorted_notifications = sort_notifications_by_date(grouped_notifications)
-  
+
   print_notifications(sorted_notifications)
 end
 
@@ -35,7 +38,27 @@ def group_notifications(notifications_map)
       to_print = ''
       latest_date = 0
       users = ''
+
+      notifications_map[target_id][notification_type_id] =
+        notifications_map[target_id][notification_type_id].sort_by { | sender_id, date | date }
+      
+      _, earliest_date = notifications_map[target_id][notification_type_id].first
+      
       notifications_map[target_id][notification_type_id].each do | sender_id, date |
+        if date - earliest_date > 30 * 1000
+          # this notification is more than 30 secs from earliest
+          # set new earliest date and batch the last few messages together
+
+          # set previous batch first
+          notification_type_string = Notification.get_notification_type_string(notification_type_id)
+          date_string = Utils.get_date_string(latest_date)
+          to_print = "[#{date_string}] #{users} #{notification_type_string}"
+          grouped_notifications[latest_date] = to_print
+
+          # start new batch
+          earliest_date = date
+          users = ''
+        end
         if date > latest_date
           latest_date = date
         end
