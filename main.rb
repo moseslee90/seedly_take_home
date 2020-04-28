@@ -14,8 +14,6 @@ class Main
 
     print_notifications(sorted_notifications)
   end
-  
-  private
 
   def generate_notifications_map(notifications, user_id)
     notifications_map = Hash.new{ |hash, key| hash[key] = Hash.new{ |hash, key| hash[key] = {} } }

@@ -65,11 +65,11 @@ RSpec.describe Main do
   end
 
   let(:grouped_notifications) do
-    {1574325866040=>"[2019-11-21 08:44:26] makerchorse commented on a question", 1574325959410=>"[2019-11-21 08:45:59] backwarddusty commented on a question", 1574325903935=>"[2019-11-21 08:45:03] gratuitystopper answered a question", 1574325917276=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", 1574326028535=>"[2019-11-21 08:47:08] makerchorse commented on a question"}
+    [{:to_print=>"[2019-11-21 08:44:26] makerchorse commented on a question", :date=>1574325866040}, {:to_print=>"[2019-11-21 08:45:59] backwarddusty commented on a question", :date=>1574325959410}, {:to_print=>"[2019-11-21 08:45:03] gratuitystopper answered a question", :date=>1574325903935}, {:to_print=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", :date=>1574325917276}, {:to_print=>"[2019-11-21 08:47:08] makerchorse commented on a question", :date=>1574326028535}]
   end
 
   let(:sorted_notifications) do
-    [[1574325866040, "[2019-11-21 08:44:26] makerchorse commented on a question"], [1574325903935, "[2019-11-21 08:45:03] gratuitystopper answered a question"], [1574325917276, "[2019-11-21 08:45:17] funeralpierce upvoted a question"], [1574325959410, "[2019-11-21 08:45:59] backwarddusty commented on a question"], [1574326028535, "[2019-11-21 08:47:08] makerchorse commented on a question"]]
+    [{:to_print=>"[2019-11-21 08:44:26] makerchorse commented on a question", :date=>1574325866040}, {:to_print=>"[2019-11-21 08:45:03] gratuitystopper answered a question", :date=>1574325903935}, {:to_print=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", :date=>1574325917276}, {:to_print=>"[2019-11-21 08:45:59] backwarddusty commented on a question", :date=>1574325959410}, {:to_print=>"[2019-11-21 08:47:08] makerchorse commented on a question", :date=>1574326028535}]
   end
 
   describe '#main' do
