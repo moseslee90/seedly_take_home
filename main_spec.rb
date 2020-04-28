@@ -58,15 +58,15 @@ RSpec.describe Main do
   end
 
   let(:notifications_map) do
-    {46=>{2=>{"makerchorse"=>1574325866040, "backwarddusty"=>1574325959410}}, 37=>{1=>{"gratuitystopper"=>1574325903935123}}, 36=>{3=>{"funeralpierce"=>1574325917276}}, 95=>{2=>{"makerchorse"=>1574326028535}}}
+    {46=>{2=>{"makerchorse"=>1574325866040, "backwarddusty"=>1574325959410}}, 37=>{1=>{"gratuitystopper"=>1574325903935}}, 36=>{3=>{"funeralpierce"=>1574325917276}}, 95=>{2=>{"makerchorse"=>1574326028535}}}
   end
 
   let(:grouped_notifications) do
-    {1574325866040=>"[2019-11-21 08:44:26] makerchorse commented on a question", 1574325959410=>"[2019-11-21 08:45:59] backwarddusty commented on a question", 1574325903935123=>"[51858-05-27 15:05:35] gratuitystopper answered a question", 1574325917276=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", 1574326028535=>"[2019-11-21 08:47:08] makerchorse commented on a question"}
+    {1574325866040=>"[2019-11-21 08:44:26] makerchorse commented on a question", 1574325959410=>"[2019-11-21 08:45:59] backwarddusty commented on a question", 1574325903935=>"[51858-05-27 15:05:35] gratuitystopper answered a question", 1574325917276=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", 1574326028535=>"[2019-11-21 08:47:08] makerchorse commented on a question"}
   end
 
   let(:sorted_notifications) do
-    [[1574325866040, "[2019-11-21 08:44:26] makerchorse commented on a question"], [1574325917276, "[2019-11-21 08:45:17] funeralpierce upvoted a question"], [1574325959410, "[2019-11-21 08:45:59] backwarddusty commented on a question"], [1574326028535, "[2019-11-21 08:47:08] makerchorse commented on a question"], [1574325903935123, "[51858-05-27 15:05:35] gratuitystopper answered a question"]]
+    [[1574325866040, "[2019-11-21 08:44:26] makerchorse commented on a question"], [1574325917276, "[2019-11-21 08:45:17] funeralpierce upvoted a question"], [1574325959410, "[2019-11-21 08:45:59] backwarddusty commented on a question"], [1574326028535, "[2019-11-21 08:47:08] makerchorse commented on a question"], [1574325903935, "[51858-05-27 15:05:35] gratuitystopper answered a question"]]
   end
 
   describe '#main' do
@@ -84,6 +84,14 @@ RSpec.describe Main do
         sorted_notifications
       )
       subject.send(:main, file_name, user_id)
+    end
+  end
+
+  describe '#generate_notifications_map' do
+    it 'generates a map of notifications from array of notifications' do
+      expect(Main.new.generate_notifications_map(notifications_json, user_id)).to eq(
+        notifications_map
+      )
     end
   end
 end
