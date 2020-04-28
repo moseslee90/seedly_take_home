@@ -3,6 +3,9 @@ require './main'
 RSpec.describe Main do
   let(:file_name) { 'notifications-test.json' }
   let(:user_id) { 'hackamorevisiting' }
+  let(:file) do
+    "[{\n  \"user_id\": \"hackamorevisiting\",\n  \"notification_type_id\": 2,\n  \"sender_id\": \"makerchorse\",\n  \"sender_type\": \"User\",\n  \"target_id\": 46,\n  \"target_type\": \"Question\",\n  \"created_at\": 1574325866040\n}, {\n  \"user_id\": \"hackamorevisiting\",\n  \"notification_type_id\": 1,\n  \"sender_id\": \"gratuitystopper\",\n  \"sender_type\": \"User\",\n  \"target_id\": 37,\n  \"target_type\": \"Question\",\n  \"created_at\": 1574325903935\n}, {\n  \"user_id\": \"hackamorevisiting\",\n  \"notification_type_id\": 3,\n  \"sender_id\": \"funeralpierce\",\n  \"sender_type\": \"User\",\n  \"target_id\": 36,\n  \"target_type\": \"Question\",\n  \"created_at\": 1574325917276\n}, {\n  \"user_id\": \"hackamorevisiting\",\n  \"notification_type_id\": 2,\n  \"sender_id\": \"hackamorevisiting\",\n  \"sender_type\": \"User\",\n  \"target_id\": 46,\n  \"target_type\": \"Question\",\n  \"created_at\": 1574325959410\n}, {\n  \"user_id\": \"hackamorevisiting\",\n  \"notification_type_id\": 2,\n  \"sender_id\": \"backwarddusty\",\n  \"sender_type\": \"User\",\n  \"target_id\": 46,\n  \"target_type\": \"Question\",\n  \"created_at\": 1574325959410\n}, {\n  \"user_id\": \"hackamorevisiting\",\n  \"notification_type_id\": 2,\n  \"sender_id\": \"makerchorse\",\n  \"sender_type\": \"User\",\n  \"target_id\": 95,\n  \"target_type\": \"Question\",\n  \"created_at\": 1574326028535\n}]\n"
+  end
   let(:notifications_json) do
     [
       {
@@ -71,6 +74,12 @@ RSpec.describe Main do
 
   describe '#main' do
     it 'runs as expected' do
+      expect(Utils).to receive(:read_file).with(
+        file_name
+      ).and_return(file)
+      expect(Utils).to receive(:parse_json).with(
+        file
+      ).and_return(notifications_json)
       expect(subject).to receive(:generate_notifications_map).with(
         notifications_json, user_id
       ).and_return(notifications_map)
