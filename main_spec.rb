@@ -62,7 +62,7 @@ RSpec.describe Main do
   end
 
   let(:grouped_notifications) do
-    {1574325866040=>"[2019-11-21 08:44:26] makerchorse commented on a question", 1574325959410=>"[2019-11-21 08:45:59] backwarddusty commented on a question", 1574325903935=>"[51858-05-27 15:05:35] gratuitystopper answered a question", 1574325917276=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", 1574326028535=>"[2019-11-21 08:47:08] makerchorse commented on a question"}
+    {1574325866040=>"[2019-11-21 08:44:26] makerchorse commented on a question", 1574325959410=>"[2019-11-21 08:45:59] backwarddusty commented on a question", 1574325903935=>"[2019-11-21 08:45:03] gratuitystopper answered a question", 1574325917276=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", 1574326028535=>"[2019-11-21 08:47:08] makerchorse commented on a question"}
   end
 
   let(:sorted_notifications) do
@@ -91,6 +91,14 @@ RSpec.describe Main do
     it 'generates a map of notifications from array of notifications' do
       expect(Main.new.generate_notifications_map(notifications_json, user_id)).to eq(
         notifications_map
+      )
+    end
+  end
+
+  describe '#group_notifications' do
+    it 'groups notifications responding to the same question in the same type together if they are less than 30s apart' do
+      expect(Main.new.group_notifications(notifications_map)).to eq(
+        grouped_notifications
       )
     end
   end
