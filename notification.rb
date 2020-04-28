@@ -6,10 +6,12 @@ def main(file_name, user_id)
   return if !file
   notifications_json = Utils.parse_json(file)
   return if !notifications_json
+
   notifications_map = generate_notifications_map(notifications_json, user_id)
   grouped_notifications = group_notifications(notifications_map)
   sorted_notifications = sort_notifications_by_date(grouped_notifications)
-  p sorted_notifications
+  
+  print_notifications(sorted_notifications)
 end
 
 def generate_notifications_map(notifications, user_id)
@@ -54,6 +56,12 @@ end
 
 def sort_notifications_by_date(grouped_notifications)
   grouped_notifications.sort_by { |date, notification| date }
+end
+
+def print_notifications(sorted_notifications)
+  sorted_notifications.each do | _, notification_string |
+    p notification_string
+  end
 end
 
 main(ARGV[0], ARGV[1])
