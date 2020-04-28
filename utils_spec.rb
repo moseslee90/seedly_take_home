@@ -10,6 +10,11 @@ RSpec.describe '#Utils.read_file' do
       file
     )
   end
+  it 'returns nil if invalid file path passed' do
+    expect(Utils.read_file('foobar')).to eq(
+      nil
+    )
+  end
 end
 
 RSpec.describe '#Utils.get_date_string' do
@@ -82,6 +87,11 @@ RSpec.describe '#Utils.parse_json' do
   it 'returns a hash with hashed keys' do
     expect(Utils.parse_json(file)).to eq(
       notifications_json
+    )
+  end
+  it 'returns nil if invalid json' do
+    expect(Utils.parse_json('not json')).to eq(
+      nil
     )
   end
 end
