@@ -11,7 +11,7 @@ class Main
     notifications_map = generate_notifications_map(notifications_json, user_id)
     grouped_notifications = group_notifications(notifications_map)
     sorted_notifications = sort_notifications_by_date(grouped_notifications)
-  
+
     print_notifications(sorted_notifications)
   end
   
