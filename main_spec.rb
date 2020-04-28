@@ -57,7 +57,7 @@ RSpec.describe Main do
         target_type: 'Question',
         created_at: 1574326028535
       }
-    ]    
+    ]
   end
 
   let(:notifications_map) do

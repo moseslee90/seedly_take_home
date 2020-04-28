@@ -14,8 +14,7 @@ module Utils
   def self.get_date_string(date_in_ms)
     date_in_seconds = date_in_ms/1000;
     date_time = DateTime.strptime(date_in_seconds.to_s, '%s')
-    string = date_time.strftime('%F %T')
-    p string
+    date_time.strftime('%F %T')
   end
 
   def self.parse_json(file)
