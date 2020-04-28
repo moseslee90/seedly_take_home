@@ -42,16 +42,16 @@ def group_notifications(notifications_map)
   grouped_notifications = Hash.new
   notifications_map.each do | target_id, notification_type_id |
     notifications_map[target_id].each do | notification_type_id, sender_id |
+      notifications_per_type = notifications_map[target_id][notification_type_id]
+      # sort notifications within type by date
+      sorted_by_date = notifications_per_type.sort_by { | sender_id, date | date }
+
       to_print = ''
       latest_date = 0
       users = ''
+      _, earliest_date = sorted_by_date.first
 
-      notifications_map[target_id][notification_type_id] =
-        notifications_map[target_id][notification_type_id].sort_by { | sender_id, date | date }
-      
-      _, earliest_date = notifications_map[target_id][notification_type_id].first
-      
-      notifications_map[target_id][notification_type_id].each do | sender_id, date |
+      sorted_by_date.each do | sender_id, date |
         if date - earliest_date > 30 * 1000
           # this notification is more than 30 secs from earliest
           # set new earliest date and batch the last few messages together
