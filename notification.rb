@@ -8,7 +8,8 @@ def main(file_name, user_id)
   return if !notifications_json
   notifications_map = generate_notifications_map(notifications_json, user_id)
   grouped_notifications = group_notifications(notifications_map)
-  p grouped_notifications
+  sorted_notifications = sort_notifications_by_date(grouped_notifications)
+  p sorted_notifications
 end
 
 def generate_notifications_map(notifications, user_id)
@@ -49,6 +50,10 @@ def group_notifications(notifications_map)
     end
   end
   grouped_notifications
+end
+
+def sort_notifications_by_date(grouped_notifications)
+  grouped_notifications.sort_by { |date, notification| date }
 end
 
 main(ARGV[0], ARGV[1])
