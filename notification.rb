@@ -9,3 +9,5 @@ def main(file_name, user_id)
   
   p notifications_json
 end
+
+main(ARGV[0], ARGV[1])
