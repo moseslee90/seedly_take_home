@@ -1,3 +1,3 @@
 require './main'
 
-Main.new.main(ARGV[0], ARGV[1])
+Main.new.get_notifications_for_user(ARGV[0], ARGV[1])

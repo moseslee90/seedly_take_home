@@ -2,7 +2,7 @@ require './utils'
 require './notification_class'
 
 class Main
-  def main(file_name, user_id)
+  def get_notifications_for_user(file_name, user_id)
     file = Utils.read_file(file_name)
     return if !file
     notifications_json = Utils.parse_json(file)

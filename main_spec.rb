@@ -72,7 +72,7 @@ RSpec.describe Main do
     [{:to_print=>"[2019-11-21 08:44:26] makerchorse commented on a question", :date=>1574325866040}, {:to_print=>"[2019-11-21 08:45:03] gratuitystopper answered a question", :date=>1574325903935}, {:to_print=>"[2019-11-21 08:45:17] funeralpierce upvoted a question", :date=>1574325917276}, {:to_print=>"[2019-11-21 08:45:59] backwarddusty commented on a question", :date=>1574325959410}, {:to_print=>"[2019-11-21 08:47:08] makerchorse commented on a question", :date=>1574326028535}]
   end
 
-  describe '#main' do
+  describe '#get_notifications_for_user' do
     it 'runs as expected' do
       expect(Utils).to receive(:read_file).with(
         file_name
@@ -92,7 +92,7 @@ RSpec.describe Main do
       expect(subject).to receive(:print_notifications).with(
         sorted_notifications
       )
-      subject.send(:main, file_name, user_id)
+      subject.send(:get_notifications_for_user, file_name, user_id)
     end
   end
 
