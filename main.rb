@@ -47,6 +47,7 @@ class Main
         users = ''
         _, earliest_date = sorted_by_date.first
         batch = 0
+
         sorted_by_date.each do | sender_id, date |
           if date - earliest_date > 30 * 1000 || batch == 3
             # this notification is more than 30 secs from earliest
@@ -56,21 +57,32 @@ class Main
               grouped_notifications: grouped_notifications, notification_type_id: notification_type_id,
               latest_date: latest_date, users_string: users)
   
-            # start new batch by setting a new earliest date and reset users string
+            # start new batch by setting a new earliest date, reset users string
+            # and resetting batch to zero
             earliest_date = date
             users = ''
             batch = 0
           end
+
           if date > latest_date
+            # update latest date which would be used to mark the date of the group
+            # of notifications
             latest_date = date
           end
+
           if users == ''
+            # if users string is empty append sender_id
+            # else append 'and [sender_id]'
             users = sender_id
           else
             users = users + ' and ' + sender_id
           end
+
+          #increment batch number so we know how many notifications are in a current batch
           batch += 1
         end
+
+        # for setting the final batch of notfications batched together
         grouped_notifications = set_notification_group(
           grouped_notifications: grouped_notifications, notification_type_id: notification_type_id,
           latest_date: latest_date, users_string: users)
