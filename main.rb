@@ -21,8 +21,7 @@ class Main
     notifications.each do |element|
       notification = Notification.new(element)
       if notification&.user_id == user_id && notification&.sender_id != user_id
-        date = Utils.get_date_string(notification.created_at)
-        notifications_map[notification&.target_id][notification&.notification_type_id][notification&.sender_id] = notification.created_at
+        notifications_map[notification&.target_id][notification&.notification_type_id][notification&.sender_id] = notification&.created_at
       end
     end
   
