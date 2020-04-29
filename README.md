@@ -1,3 +1,7 @@
+# Assumptions
+
+ - Assume that multiple actions from the same user for the same question of the same type of action within a 30s period should be counted as one notification
+
 # Seedly Backend Engineer
 
 Thank you for taking the time for this interview assignment. Please do code in Ruby (recommended) or Node.js. All code will run through a test suite to test its production quality; these tests affect whether or not our interview process continues, so please take them seriously. Also, note that the test SHOULD be production ready. Please do not spend more than 2 days for this exercise. In case you have any problems/doubts please do get in touch with us.
